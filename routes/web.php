@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PertanyaanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -29,8 +30,18 @@ Route::middleware('tenant')->group(function() {
 
 // Auth
 Route::get('/', [AuthController::class , 'login'])->name('login');
+Route::post('/login-store', [AuthController::class , 'loginStore'])->name('loginStore');
+
 Route::get('/register', [AuthController::class , 'register'])->name('register');
+Route::post('/register-store', [AuthController::class , 'registerStore'])->name('registerStore');
+Route::post('/logout', [AuthController::class , 'logout'])->name('logout');
 
 
-Route::get('/dashboard', [HomeController::class , 'index'])->name('dashboard.index');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [HomeController::class , 'index'])->name('dashboard.index');
+
+
+    Route::get('/pertanyaan', [PertanyaanController::class , 'index'])->name('admin.pertanyaan');
+
+});
 
