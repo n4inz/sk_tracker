@@ -42,6 +42,8 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/pertanyaan', [PertanyaanController::class , 'index'])->name('admin.pertanyaan');
+    Route::post('/store-pertanyaan', [PertanyaanController::class , 'storePertanyaan'])->name('admin.storePertanyaan');
+
 
 });
 
