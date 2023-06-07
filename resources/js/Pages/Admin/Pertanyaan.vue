@@ -3,7 +3,9 @@
     <div ref="homeContent" class="p-4 sm:ml-64">
         <div class="w-3/4 mx-auto flex flex-col p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
             <div class="w-full mb-5 flex justify-end">
-                <button @click="modalAddPertanyaan" class=" bg-blue-500 text-white p-2 rounded-md text-sm">Buat pertanyaan</button>
+                <Link href="/tambah-pertanyaan">
+                    <button class=" bg-blue-500 text-white p-2 rounded-md text-sm">Buat pertanyaan</button>
+                </Link>
             </div>
             <div class="relative overflow-x-auto px-10">
                 <form class="mt-5" @submit.prevent="jawabPertanyaan">
@@ -30,12 +32,12 @@
                             
                             <input
                             type="checkbox"
-                            :checked="formData[pilihan]"
+                           
                             @change="formData[pilihan] = !formData[pilihan]"
-                            id="floating_checkbox"
+                            id=""
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             />
-                            <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ pilihan }}</label>
+                            <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ pilihan.jawaban.charAt(0).toUpperCase() + pilihan.jawaban.slice(1) }}</label>
                         </div>
 
                         <div v-for="pilihan in item.jawaban" :key="pilihan" v-else-if="item.type === 'radio'" class="flex items-center mb-4 mt-5">
@@ -46,7 +48,7 @@
                                 id=""
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             />
-                            <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ pilihan }}</label>
+                            <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ pilihan.jawaban.charAt(0).toUpperCase() + pilihan.jawaban.slice(1) }}</label>
                         </div>
 
                         
@@ -82,7 +84,7 @@
                         <div>
                             <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type pertanyaan</label>
                             <select v-model="data.valuePertanyaan" @change="typePertanyaan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected value="input">Input</option>
+                                <option selected value="text">Input</option>
                                 <option value="checkbox">Pilihan checkbox</option>
                                 <option value="radio">Pilihan radio</option>
                             </select>
@@ -124,13 +126,14 @@
 
 <script>
 import Sidebar from '../Layouts/Sidebar.vue';
-import { useForm } from '@inertiajs/vue3';
+import { useForm , Link } from '@inertiajs/vue3';
 import { Modal } from 'flowbite';
 import { ref , reactive } from 'vue';
 
 export default {
     components: {
-        Sidebar
+        Sidebar,
+        Link
     },
 
     props: {
@@ -155,7 +158,7 @@ export default {
         })
 
         const typePertanyaan = () => {
-            if (data.valuePertanyaan !== 'input') {
+            if (data.valuePertanyaan !== 'text') {
                 jawabanTitle.value.classList.remove('hidden');
                  formJawaban.push({ jawaban : ''})
 
@@ -168,6 +171,10 @@ export default {
 
         const submitPertanyaan = () => {
             data.post('/store-pertanyaan');
+
+            const targetEl = document.getElementById('modalPertanyaan');
+            const modal = new Modal(targetEl, {});
+            modal.hide();
         }
 
         const addJawaban = () => {
@@ -199,8 +206,10 @@ export default {
 
 
         jawabPertanyaan: function(){
-             console.log(this.formData)
-
+            const data = this.formData;
+            this.$inertia.post('/submit-pertanyaan',data, {
+                preserveScroll: true
+            });
         },
 
     }

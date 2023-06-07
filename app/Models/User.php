@@ -12,17 +12,22 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasRoles, HasApiTokens, HasFactory, Notifiable;
-
+    CONST STATUSACTIVE = 0; 
+    CONST STATUSNOTACTIVE = 1;
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+
+   
     protected $fillable = [
         'name',
         'email',
         'password',
-        'username'
+        'username',
+        'color',
+        'status'
     ];
 
     /**

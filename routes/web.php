@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\PertanyaanController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -42,8 +43,12 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/pertanyaan', [PertanyaanController::class , 'index'])->name('admin.pertanyaan');
+    Route::get('/tambah-pertanyaan', [PertanyaanController::class , 'tambahPertanyaan'])->name('admin.tambahPertanyaan');
     Route::post('/store-pertanyaan', [PertanyaanController::class , 'storePertanyaan'])->name('admin.storePertanyaan');
+    Route::post('/submit-pertanyaan', [PertanyaanController::class , 'submitPertanyaan'])->name('admin.submitPertanyaan');
 
+    Route::get('/user', [UserController::class , 'index'])->name('admin.userAll');
+    Route::post('/verify-user/{id}', [UserController::class , 'verifyUser'])->name('admin.verifyUser');
 
 });
 

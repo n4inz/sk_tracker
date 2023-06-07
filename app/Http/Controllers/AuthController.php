@@ -7,7 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Redirect;
 class AuthController extends Controller
 {
     public function login()
@@ -36,6 +36,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        
         return Inertia::render('Auth/register');   
     }
 
@@ -48,17 +49,26 @@ class AuthController extends Controller
             'email' => 'required|unique:users,email',
             'password' => 'required|min:3',
         ]);
-
+        $color = [
+            'bg-yellow-300',
+            'bg-red-500',
+            'bg-orange-500',
+            'bg-emerald-500',
+            'bg-rose-600',
+            'bg-green-500',
+        ];
 
         User::create([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
+            'color' => $color[array_rand($color)],
+            'status' => User::STATUSNOTACTIVE,
             'password' => Hash::make($request->password),
         ]);
 
+        return Redirect::route('login')->with('success', 'Data berhasil disimpan!');
         
-        return Inertia::render('Auth/login');   
     }
 
     public function logout(Request $request)
