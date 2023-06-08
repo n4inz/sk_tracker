@@ -48,6 +48,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/submit-pertanyaan', [PertanyaanController::class , 'submitPertanyaan'])->name('admin.submitPertanyaan');
 
     Route::get('/user', [UserController::class , 'index'])->name('admin.userAll');
+    Route::get('/detail-user/{id}', [UserController::class , 'detail'])->name('admin.detail');
+
     Route::post('/verify-user/{id}', [UserController::class , 'verifyUser'])->name('admin.verifyUser');
 
 });

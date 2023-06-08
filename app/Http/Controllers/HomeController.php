@@ -9,6 +9,7 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+        // return $request->user()->hasRole('admin');
         return Inertia::render('Home');
     }
 }

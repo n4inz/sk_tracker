@@ -2,7 +2,7 @@
     <Sidebar @toggleChildClass="toggleChildClass" />
     <div  ref="homeContent" class="p-4 sm:ml-64">
         <div  class="flex flex-wrap items-center justify-evenly">
-
+            <div class="bg-yellow-300 bg-orange-500 bg-emerald-500 bg-rose-600 bg-green-500"></div>
             <div v-for="user in users" :key="user" class="max-w-xs w-80 p-6 mb-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <div class="flex items-end space-x-2">
                     <div  :class="user.color + ' flex items-center justify-center w-12 h-12 text-white rounded-full'">
@@ -36,10 +36,10 @@
 
                 </div>
                 <div class="flex items-center justify-between">
-                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
-                        See our guideline
+                    <Link :href="'/detail-user/'+user.id" class="inline-flex items-center text-blue-600 hover:underline">
+                        See our user
                         <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path></svg>
-                    </a>
+                    </Link>
                     <button v-if="user.status === 1" @click="verifyUser(user.id)" class="hover:bg-blue-500 hover:text-white font-semibold text-blue-500 border-[2px] border-blue-500 rounded text-sm p-1">
                         Verify
                     </button>

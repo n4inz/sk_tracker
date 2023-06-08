@@ -7,12 +7,17 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Pertanyaan;
 use App\Models\PertanyaanJawaban;
+use App\Models\UserJawaban;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 
 class PertanyaanController extends Controller
 {
     public function index()
     {
+        // $per = UserJawaban::where('user_id',5)->first();
+
+        // return $per->jawaban;
         $data = Pertanyaan::query()->with('jawaban')->get();
         
         return Inertia::render('Admin/Pertanyaan',[
@@ -58,6 +63,17 @@ class PertanyaanController extends Controller
 
     public function submitPertanyaan(Request $request)
     {
-        return $request;
+        // Log::info(json_encode($request->data));
+        // return $request->data;
+        $user = $request->user();
+
+        UserJawaban::updateOrCreate([
+            'user_id' => $user->id,
+        ],[
+           'user_id' => $user->id,
+           'jawaban' => json_encode($request->data), 
+        ]);
+        
+        return Redirect::route('admin.pertanyaan')->with('success', 'Data berhasil disimpan!');
     }
 }

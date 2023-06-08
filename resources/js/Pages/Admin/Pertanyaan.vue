@@ -2,7 +2,7 @@
     <Sidebar @toggleChildClass="toggleChildClass" />
     <div ref="homeContent" class="p-4 sm:ml-64">
         <div class="w-3/4 mx-auto flex flex-col p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-            <div class="w-full mb-5 flex justify-end">
+            <div v-if="$page.props.auth.admin === true" class="w-full mb-5 flex justify-end">
                 <Link href="/tambah-pertanyaan">
                     <button class=" bg-blue-500 text-white p-2 rounded-md text-sm">Buat pertanyaan</button>
                 </Link>
@@ -29,14 +29,19 @@
 
                         <!-- Render checkbox if item.type is checkbox -->
                         <div v-for="pilihan in item.jawaban" :key="item.jawaban" v-else-if="item.type === 'checkbox'" class="flex items-center mb-4 mt-5">
-                            
                             <input
+                                type="checkbox"
+                                @change="toggleCheckbox(item.name, pilihan)"
+                                :id="pilihan"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <!-- <input
                             type="checkbox"
                            
-                            @change="formData[pilihan] = !formData[pilihan]"
+                            @change="formData[item.name] = pilihan"
                             id=""
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                            />
+                            /> -->
                             <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ pilihan.jawaban.charAt(0).toUpperCase() + pilihan.jawaban.slice(1) }}</label>
                         </div>
 
@@ -57,7 +62,7 @@
                     </div>
                 </div>
                     
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                    <button v-if="$page.props.auth.admin === false" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
                 </form>
             </div>
         </div>
@@ -206,11 +211,26 @@ export default {
 
 
         jawabPertanyaan: function(){
-            const data = this.formData;
-            this.$inertia.post('/submit-pertanyaan',data, {
+            const submit = this.formData;
+            this.$inertia.post('/submit-pertanyaan',{data:submit}, {
                 preserveScroll: true
             });
         },
+        toggleCheckbox(fieldName, value) {
+            if (!this.formData[fieldName]) {
+                // Jika nilai belum ada, inisialisasi dengan array kosong
+                this.formData[fieldName] = [];
+            }
+
+            if (this.formData[fieldName].includes(value)) {
+                // Jika nilai sudah ada dalam array, hapus dari array
+                const index = this.formData[fieldName].indexOf(value);
+                this.formData[fieldName].splice(index, 1);
+            } else {
+                // Jika nilai belum ada dalam array, tambahkan ke array
+                this.formData[fieldName].push(value);
+            }
+        }
 
     }
   // Logika komponen lain
