@@ -2,6 +2,17 @@
     <Sidebar @toggleChildClass="toggleChildClass" />
     <div ref="homeContent" class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+            <Bar
+                id="my-chart-id"
+                :options="chartOptions"
+                :data="chartData"
+            />
+
+                        <Bar
+                id="my-chart-id"
+                :options="chartOptions1"
+                :data="chartData1"
+            />
             <div class="grid grid-cols-3 gap-4 mb-4">
                 <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
                     <p class="text-2xl text-gray-400 dark:text-gray-500">+</p>
@@ -53,17 +64,43 @@
 
 <script>
 import Sidebar from './Layouts/Sidebar.vue';
+import { Bar } from 'vue-chartjs';
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
-  components: {
-    Sidebar
-  },
+    name: 'BarChart',
+    components: {
+        Sidebar,
+        Bar,
+    },
 
-  methods: {
-    toggleChildClass() {
-      this.$refs.homeContent.classList.toggle('sm:ml-64');
+    data() {
+        return {
+            chartData: {
+                labels: [ 'January', 'February', 'March' ],
+                datasets: [ { data: [40, 20, 12] } ]
+            },
+            chartOptions: {
+                responsive: true
+            },
+
+            chartData1: {
+                labels: [ 'Sen', 'Sel', 'Rab' ],
+                datasets: [ { data: [11, 14, 15] } ]
+            },
+            chartOptions1: {
+                responsive: true
+            }
+        }
+    },
+
+
+    methods: {
+        toggleChildClass() {
+        this.$refs.homeContent.classList.toggle('sm:ml-64');
+        }
     }
-  }
   // Logika komponen lain
 }
 

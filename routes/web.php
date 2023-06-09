@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\PertanyaanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/detail-user/{id}', [UserController::class , 'detail'])->name('admin.detail');
 
     Route::post('/verify-user/{id}', [UserController::class , 'verifyUser'])->name('admin.verifyUser');
+
+
+    Route::get('/chat', [ChatController::class , 'index'])->name('chat');
+    Route::post('/store-chat', [ChatController::class , 'storeChat'])->name('storeChat');
+    Route::get('/getmessages', [ChatController::class , 'getMessages'])->name('getMessages');
+
+
 
 });
 
