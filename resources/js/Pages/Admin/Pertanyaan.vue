@@ -10,54 +10,56 @@
             <div class="relative overflow-x-auto px-10">
                 <form class="mt-5" @submit.prevent="jawabPertanyaan">
                 <div v-for="item in loadPertanyaan" :key="item">
-                    <div class="relative z-0 w-full mb-6 group">
-
-                        <label
-                            :for="item.type === 'checkbox' ? 'floating_checkbox' : 'floating_email'"
-                            class="text-blue-600 text-sm"
-                        >{{ item.name_text }}</label>
-                        <!-- Render input field if item.type is not checkbox -->
-                        <input
-                            v-if="item.type === 'text'"
-                            type="text"
-                            :value="formData[item.name]"
-                            @input="formData[item.name] = $event.target.value"
-                            id="floating_email"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                        />
-
-                        <!-- Render checkbox if item.type is checkbox -->
-                        <div v-for="pilihan in item.jawaban" :key="item.jawaban" v-else-if="item.type === 'checkbox'" class="flex items-center mb-4 mt-5">
+                    <div class="relative z-0 w-full mb-6 group flex items-center justify-center space-x-3">
+                        <div class="w-full">
+                            <label
+                                :for="item.type === 'checkbox' ? 'floating_checkbox' : 'floating_email'"
+                                class="text-blue-600 text-sm"
+                            >{{ item.name_text }}</label>
+                            <!-- Render input field if item.type is not checkbox -->
                             <input
-                                type="checkbox"
-                                @change="toggleCheckbox(item.name, pilihan)"
-                                :id="pilihan"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                v-if="item.type === 'text'"
+                                type="text"
+                                :value="formData[item.name]"
+                                @input="formData[item.name] = $event.target.value"
+                                id="floating_email"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                placeholder=" "
                             />
-                            <!-- <input
-                            type="checkbox"
-                           
-                            @change="formData[item.name] = pilihan"
-                            id=""
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                            /> -->
-                            <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ pilihan.jawaban.charAt(0).toUpperCase() + pilihan.jawaban.slice(1) }}</label>
-                        </div>
 
-                        <div v-for="pilihan in item.jawaban" :key="pilihan" v-else-if="item.type === 'radio'" class="flex items-center mb-4 mt-5">
-                            <input
-                                type="radio"
-                                :checked="formData[item.name] === pilihan"
+                            <!-- Render checkbox if item.type is checkbox -->
+                            <div v-for="pilihan in item.jawaban" :key="item.jawaban" v-else-if="item.type === 'checkbox'" class="flex items-center mb-4 mt-5">
+                                <input
+                                    type="checkbox"
+                                    @change="toggleCheckbox(item.name, pilihan)"
+                                    :id="pilihan"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <!-- <input
+                                type="checkbox"
+                            
                                 @change="formData[item.name] = pilihan"
                                 id=""
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ pilihan.jawaban.charAt(0).toUpperCase() + pilihan.jawaban.slice(1) }}</label>
-                        </div>
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                /> -->
+                                <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ pilihan.jawaban.charAt(0).toUpperCase() + pilihan.jawaban.slice(1) }}</label>
+                            </div>
 
-                        
-                   
+                            <div v-for="pilihan in item.jawaban" :key="pilihan" v-else-if="item.type === 'radio'" class="flex items-center mb-4 mt-5">
+                                <input
+                                    type="radio"
+                                    :checked="formData[item.name] === pilihan"
+                                    @change="formData[item.name] = pilihan"
+                                    id=""
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ pilihan.jawaban.charAt(0).toUpperCase() + pilihan.jawaban.slice(1) }}</label>
+                            </div>
+                        </div>
+                        <svg v-if="$page.props.auth.admin == true" @click="remove(item.id)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-red-500 text-slate-500 hover:cursor-pointer">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+
 
                     </div>
                 </div>
@@ -238,6 +240,12 @@ export default {
                 // Jika nilai belum ada dalam array, tambahkan ke array
                 this.formData[fieldName].push(value);
             }
+        },
+        remove(id){
+            
+            this.$inertia.post('/delete-pertanyaan',{id:id}, {
+                preserveScroll: true
+            });
         }
 
     }

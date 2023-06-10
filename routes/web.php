@@ -48,7 +48,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tambah-pertanyaan', [PertanyaanController::class , 'tambahPertanyaan'])->name('admin.tambahPertanyaan');
     Route::post('/store-pertanyaan', [PertanyaanController::class , 'storePertanyaan'])->name('admin.storePertanyaan');
     Route::post('/submit-pertanyaan', [PertanyaanController::class , 'submitPertanyaan'])->name('admin.submitPertanyaan');
-
+    Route::post('/delete-pertanyaan', [PertanyaanController::class , 'deletePertanyaan'])->name('admin.deletePertanyaan');
+    
+    
     Route::get('/user', [UserController::class , 'index'])->name('admin.userAll');
     Route::get('/detail-user/{id}', [UserController::class , 'detail'])->name('admin.detail');
 

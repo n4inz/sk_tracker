@@ -86,7 +86,19 @@ class PertanyaanController extends Controller
            'user_id' => $user->id,
            'jawaban' => json_encode($request->data), 
         ]);
-        
+        if($user->hasRole('admin')){
+            return Redirect::route('admin.pertanyaan')->with('success', 'Data berhasil disimpan!');
+
+        }else{
+            return Redirect::route('admin.detail',['id' => $user->id])->with('success', 'Data berhasil disimpan!');
+
+        }
+    }
+
+    public function deletePertanyaan(Request $request){
+        $id = $request->id;
+        PertanyaanJawaban::where('pertanyaans_id',$id)->delete();
+        Pertanyaan::where('id',$id)->delete();
         return Redirect::route('admin.pertanyaan')->with('success', 'Data berhasil disimpan!');
     }
 }
