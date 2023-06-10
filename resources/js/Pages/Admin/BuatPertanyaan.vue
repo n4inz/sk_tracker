@@ -82,13 +82,18 @@ export default {
         })
 
         const typePertanyaan = () => {
+            console.log(data.valuePertanyaan)
             if (data.valuePertanyaan !== 'text') {
                 jawabanTitle.value.classList.remove('hidden');
                  formJawaban.push({ jawaban : ''})
 
-            } else {
+            }
+            if(data.valuePertanyaan == 'text') {
                 jawabanTitle.value.classList.add('hidden');
-                jawaban.value = '';
+                data.jawaban.value = '';
+              
+                formJawaban.splice(0, formJawaban.length);
+
             }
         
         }

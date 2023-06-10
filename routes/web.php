@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Notification;
 use Illuminate\Support\Facades\Route;
 
 
@@ -58,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/store-chat', [ChatController::class , 'storeChat'])->name('storeChat');
     Route::get('/getmessages', [ChatController::class , 'getMessages'])->name('getMessages');
 
+    Route::get('/notification', [Notification::class , 'index'])->name('notification');
+    Route::get('/detail-notification/{id}', [Notification::class , 'detail'])->name('notification.detail');
 
 
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Jobs\ChangePertanyaan;
 use App\Models\Pertanyaan;
 use App\Models\PertanyaanJawaban;
 use App\Models\UserJawaban;
@@ -13,15 +14,25 @@ use Illuminate\Support\Facades\Redirect;
 
 class PertanyaanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // $per = UserJawaban::where('user_id',5)->first();
+        $user = $request->user();
 
-        // return $per->jawaban;
+        $cek = false;
+        if(!$user->hasRole('admin')){
+            $uJawaban = UserJawaban::select('id')
+            ->where('user_id',$user->id)
+            ->where('status',UserJawaban::NEW)->first();
+            if($uJawaban){
+                $cek = true;
+            }
+        }
+       
         $data = Pertanyaan::query()->with('jawaban')->get();
         
         return Inertia::render('Admin/Pertanyaan',[
-            'loadPertanyaan' => $data
+            'loadPertanyaan' => $data,
+            'cekPertanyaan' => $cek
         ]);
     }
 
@@ -33,7 +44,8 @@ class PertanyaanController extends Controller
 
     public function storePertanyaan(Request $request)
     {
-        $request->validate([
+       
+       $request->validate([
             'valuePertanyaan' => 'required',
             'titlePertanyaan' => 'required',
         ]);
@@ -53,6 +65,7 @@ class PertanyaanController extends Controller
             }
 
         }
+        ChangePertanyaan::dispatch();
 
         return Redirect::route('admin.pertanyaan')->with('success', 'Data berhasil disimpan!');
 

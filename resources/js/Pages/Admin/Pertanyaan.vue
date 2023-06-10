@@ -1,7 +1,7 @@
 <template>
     <Sidebar @toggleChildClass="toggleChildClass" />
-    <div ref="homeContent" class="p-4 sm:ml-64">
-        <div class="w-3/4 mx-auto flex flex-col p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+    <div ref="homeContent" class="sm:p-4 sm:ml-64">
+        <div v-if="cekPertanyaan == false" class="w-3/4 mx-auto flex flex-col p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
             <div v-if="$page.props.auth.admin === true" class="w-full mb-5 flex justify-end">
                 <Link href="/tambah-pertanyaan">
                     <button class=" bg-blue-500 text-white p-2 rounded-md text-sm">Buat pertanyaan</button>
@@ -66,6 +66,12 @@
                 </form>
             </div>
         </div>
+        <div v-if="cekPertanyaan == true" class="w-3/4 h-96 space-y-4 mx-auto flex flex-col items-center justify-center p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 text-blue-500">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0118 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3l1.5 1.5 3-3.75" />
+            </svg>
+            <span class="text-slate-500 text-2xl max-w-sm text-center">Terimah kasih telah menjawab pertanyaan hari ini</span>
+        </div>
     </div>
 
     <!-- Main modal -->
@@ -78,10 +84,7 @@
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                         Tambah Pertanyaan
                     </h3>
-                    <!-- <button @click="modalDismisPertanyaan" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
-                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        <span class="sr-only">Close modal</span>
-                    </button> -->
+
                 </div>
                 <!-- Modal body -->
                 <form action="" @submit.prevent="submitPertanyaan">
@@ -146,6 +149,11 @@ export default {
         type: Array,
         
         },
+        cekPertanyaan: {
+        type: Boolean,
+        
+        },
+        
     },
     data() {
         return {

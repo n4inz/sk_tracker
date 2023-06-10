@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Notification;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -23,6 +24,14 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+        $aktif = User::select('id')->where([
+            'email' => $request->email,
+            'status' => 0
+        ])->first();
+        
+        if(!$aktif){
+            return redirect()->back()->withErrors(['email' => 'Akun anda belum aktif. Mohon tunggu 1-3 hari kerja']);
+        }
         $credentials = $request->only('email', 'password');
     
         if (Auth::attempt($credentials)) {
@@ -58,7 +67,7 @@ class AuthController extends Controller
             'bg-green-500',
         ];
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
@@ -67,6 +76,9 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+
+        Notification::dispatch(null,'User name '.$user->username. ' success register, Verifikasi sekarang !!!');
+        Notification::dispatch($user->id,'Halo '.$user->name. ', Terimah kasih telah mendaftar di aplikasi tracker study. Mohon tunggu 1-3 hari untuk aktfasi akun. Terimah kasih ');
         return Redirect::route('login')->with('success', 'Data berhasil disimpan!');
         
     }

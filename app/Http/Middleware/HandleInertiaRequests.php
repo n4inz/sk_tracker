@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Notifiaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
@@ -41,6 +42,11 @@ class HandleInertiaRequests extends Middleware
       
         if(Auth::check()){
             $user = $request->user();
+            if($user->hasRole('admin')){
+                $total = Notifiaction::where('user_id',null)->where('read_at_at' ,null)->count();
+            }else{
+                $total = Notifiaction::where('user_id',$user->id)->where('read_at_at' ,null)->count();
+            }
             return array_merge(parent::share($request), [
                 'auth' => [
                     'username' => @$user->username,
@@ -48,6 +54,7 @@ class HandleInertiaRequests extends Middleware
                     'name' => @$user->name,
                     'email' => @$user->email,
                     'admin' => @$user->hasRole('admin') ?? 0 ,
+                    'totalNotif' => $total,
                 ]
             ]);
 
