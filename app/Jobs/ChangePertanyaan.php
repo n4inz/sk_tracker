@@ -2,14 +2,15 @@
 
 namespace App\Jobs;
 
+
 use App\Models\UserJawaban;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
+
 use Spatie\Multitenancy\Jobs\NotTenantAware;
 
 class ChangePertanyaan implements ShouldQueue , NotTenantAware
@@ -37,6 +38,6 @@ class ChangePertanyaan implements ShouldQueue , NotTenantAware
             'status' => 0,
         ]);
 
-        Log::info('okkk');
+
     }
 }

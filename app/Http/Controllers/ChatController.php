@@ -33,8 +33,8 @@ class ChatController extends Controller
     public function getMessages(Request $request)
     {
        
-        $messages = Chat::query()->select('body', 'user_id')->get();
-
+        $messages = Chat::query()->with('user:id,username')->select('body', 'user_id')->get();
+        // return $messages;
 
         return response()->json([
             'data' => $messages

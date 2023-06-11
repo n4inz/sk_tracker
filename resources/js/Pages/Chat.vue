@@ -11,11 +11,13 @@
                         <div v-for="message in messages" :key="message.id" class="mb-2">
                             <div v-if="message.user_id == $page.props.auth.id" class="flex flex-row-reverse">
                             <div class="bg-blue-500 text-white rounded-lg p-2">
+                                
                                 {{ message.body }}
                             </div>
                             </div>
                             <div v-else class="flex">
-                            <div class="bg-gray-200 rounded-lg p-2">
+                            <div class="bg-gray-200 rounded-lg p-2 flex flex-col">
+                                <span class="text-sm text-gray-500">@{{ message.user.username }}</span>
                                 {{ message.body }}
                             </div>
                             </div>

@@ -7,7 +7,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Notification;
 use Illuminate\Support\Facades\Route;
-
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +53,11 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/user', [UserController::class , 'index'])->name('admin.userAll');
     Route::get('/detail-user/{id}', [UserController::class , 'detail'])->name('admin.detail');
+    Route::get('/export', [UserController::class , 'export'])->name('admin.export');
+    
+    Route::get('/download-excel', function () {
+        return Inertia::location(route('admin.export'));
+    })->name('download.excel');
 
     Route::post('/verify-user/{id}', [UserController::class , 'verifyUser'])->name('admin.verifyUser');
 

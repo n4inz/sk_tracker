@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Jobs\ChangePertanyaan;
 use App\Models\Pertanyaan;
-use App\Models\PertanyaanJawaban;
 use App\Models\UserJawaban;
+use App\Models\Notifiaction;
+use Illuminate\Http\Request;
+use App\Jobs\ChangePertanyaan;
+use App\Models\PertanyaanJawaban;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Jobs\NotifRilisPertanyaan;
 use Illuminate\Support\Facades\Redirect;
 
 class PertanyaanController extends Controller
@@ -66,11 +69,19 @@ class PertanyaanController extends Controller
 
         }
         ChangePertanyaan::dispatch();
-
+        NotifRilisPertanyaan::dispatch();
+        // User::query()->get()->map(function($user){
+        //     Notifiaction::create([
+        //         'user_id' => $user->id,
+        //         'body' => 'Halo '.$user->name. ', Admin telah merirlis pertanyaan baru, Jawab sekarang !!!',
+        //     ]);
+        //     // Notification::dispatch($user->id,'Halo '.$user->name. ', Admin telah merirlis pertanyaan baru, Jawab sekarang !!!');
+        // });
+        
         return Redirect::route('admin.pertanyaan')->with('success', 'Data berhasil disimpan!');
 
 
-        return Inertia::location(url()->previous());
+        
     
     }
 
@@ -84,6 +95,7 @@ class PertanyaanController extends Controller
             'user_id' => $user->id,
         ],[
            'user_id' => $user->id,
+           'status' => UserJawaban::NEW,
            'jawaban' => json_encode($request->data), 
         ]);
         if($user->hasRole('admin')){

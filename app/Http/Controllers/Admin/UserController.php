@@ -4,13 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
+
+use App\Exports\UsersExport;
+use App\Models\UserJawaban;
+use Maatwebsite\Excel\Facades\Excel;
+
 class UserController extends Controller
 {
     public function index()
     {
+        
         $user = User::query()->orderBy('id','desc')->get();
        
         return Inertia::render('Admin/User',[
@@ -35,19 +42,17 @@ class UserController extends Controller
 
         $data = User::where('id', $id)->with('user_jawaban')->first();
 
-        // $data = json_decode($data->user_jawaban->jawaban, true);
-
-        // // Mengakses kunci dan nilai
-        // foreach ($data as $key => $value) {
-        //     echo "Key: $key<br>";
-        //     echo "Value: $value<br>";
-        //     echo "<br>";
-        // }
-
-        // return false;
+        
         return Inertia::render('Admin/DetailUser',[
             'data' => $data,
             'jawaban' => json_decode(@$data->user_jawaban->jawaban),
         ]);
+    }
+
+    public function export()
+    {
+        
+         $datas = UserJawaban::query()->where('status', UserJawaban::NEW)->get();
+         return Excel::download(new UsersExport($datas), 'users.xlsx');
     }
 }

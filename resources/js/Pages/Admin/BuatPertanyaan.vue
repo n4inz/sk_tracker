@@ -12,8 +12,9 @@
                             <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type pertanyaan</label>
                             <select v-model="data.valuePertanyaan" @change="typePertanyaan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option selected value="text">Input</option>
-                                <option value="checkbox">Pilihan checkbox</option>
-                                <option value="radio">Pilihan radio</option>
+                                <option value="checkbox">Pilihan Checkbox</option>
+                                <option value="radio">Pilihan Radio</option>
+                                <option value="select">Pilihan Select</option>
                             </select>
                             <div v-if="data.errors.valuePertanyaan" v-text="data.errors.valuePertanyaan" class="text-xs text-red-500 mt-2"></div>
                         </div>
@@ -86,6 +87,8 @@ export default {
             if (data.valuePertanyaan !== 'text') {
                 jawabanTitle.value.classList.remove('hidden');
                  formJawaban.push({ jawaban : ''})
+                formJawaban.splice(0, formJawaban.length);
+
 
             }
             if(data.valuePertanyaan == 'text') {
