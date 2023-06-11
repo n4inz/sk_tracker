@@ -32,10 +32,10 @@ Route::middleware('tenant')->group(function() {
 });
 
 // Auth
-Route::get('/', [AuthController::class , 'login'])->name('login');
+Route::get('/', [AuthController::class , 'login'])->name('login')->middleware('guest');
 Route::post('/login-store', [AuthController::class , 'loginStore'])->name('loginStore');
 
-Route::get('/register', [AuthController::class , 'register'])->name('register');
+Route::get('/register', [AuthController::class , 'register'])->name('register')->middleware('guest');
 Route::post('/register-store', [AuthController::class , 'registerStore'])->name('registerStore');
 Route::post('/logout', [AuthController::class , 'logout'])->name('logout');
 
