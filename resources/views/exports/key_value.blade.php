@@ -3,6 +3,7 @@
        $last = count($data) - 1;
     @endphp
     <tbody>
+        
         @if (count($data))
             <tr>
                 @foreach (@$data[0] as $seperates )
