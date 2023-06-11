@@ -4,8 +4,12 @@
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
             <div class="mb-10 flex items-center justify-between">
                 <a href="#" class="flex items-center">
-                    <img src="https://tracker-study.n4inz.xyz/umpar.png" class="h-8 mr-3" alt="Flowbite Logo" />
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Tracker</span>
+                    <img src="https://tracker-study.n4inz.xyz/umpar.png" class="h-10 mr-3" alt="Flowbite Logo" />
+                    <div class="flex flex-col">
+
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Tracker </span>
+                        <span class="text-xl font-semibold whitespace-nowrap dark:text-white">Study</span>
+                    </div>
                 </a>
                 <button @click="burgerTogle" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                 <span class="sr-only">Open sidebar</span>
