@@ -70,25 +70,12 @@ class PertanyaanController extends Controller
         }
         ChangePertanyaan::dispatch();
         NotifRilisPertanyaan::dispatch();
-        // User::query()->get()->map(function($user){
-        //     Notifiaction::create([
-        //         'user_id' => $user->id,
-        //         'body' => 'Halo '.$user->name. ', Admin telah merirlis pertanyaan baru, Jawab sekarang !!!',
-        //     ]);
-        //     // Notification::dispatch($user->id,'Halo '.$user->name. ', Admin telah merirlis pertanyaan baru, Jawab sekarang !!!');
-        // });
-        
         return Redirect::route('admin.pertanyaan')->with('success', 'Data berhasil disimpan!');
 
-
-        
-    
     }
 
     public function submitPertanyaan(Request $request)
     {
-        // Log::info(json_encode($request->data));
-        // return $request->data;
         $user = $request->user();
 
         UserJawaban::updateOrCreate([

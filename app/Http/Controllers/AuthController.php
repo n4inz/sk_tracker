@@ -18,10 +18,6 @@ class AuthController extends Controller
     public function login()
     {
 
-        
-        // $datas = UserJawaban::query()->get();
-        // return Excel::download(new UsersExport($datas), 'users.xlsx');
-
         return Inertia::render('Auth/login');
     }
 
