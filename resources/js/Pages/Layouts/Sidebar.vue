@@ -7,7 +7,7 @@
                     <img src="https://tracker-study.n4inz.xyz/umpar.png" class="h-10 mr-3" alt="Flowbite Logo" />
                     <div class="flex flex-col">
 
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Tracker </span>
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Tracer </span>
                         <span class="text-xl font-semibold whitespace-nowrap dark:text-white">Study</span>
                     </div>
                 </a>
