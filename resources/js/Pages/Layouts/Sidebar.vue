@@ -4,7 +4,7 @@
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
             <div class="mb-10 flex items-center justify-between">
                 <a href="#" class="flex items-center">
-                    <img src="https://tracker-study.n4inz.xyz/umpar.png" class="h-10 mr-3" alt="Flowbite Logo" />
+                    <img src="/umpar.png" class="h-10 mr-3" alt="Flowbite Logo" />
                     <div class="flex flex-col">
 
                         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Tracer </span>
